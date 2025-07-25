@@ -3,10 +3,17 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const session = require('express-session');
 const { generateQuizFromText } = require('./services/aiService');
+const path = require('path');
 
 dotenv.config();
 
 const app = express();
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 
 // Detailed logging middleware
 app.use((req, res, next) => {
